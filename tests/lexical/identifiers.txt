@@ -1,0 +1,40 @@
+##PROCESS
+##LOOP
+INTEGER Var1A[5] $
+CHAR VAr1B // VARABCfds $ 
+CONST Tab[84] $
+VarR INF Poop $
+VAt:=78 $
+Posdsf INFE Po $
+/* test tstsdg,mgfdgk,dfg
+sdfoklnsd,;foink
+*/
+/*sdfqqsdfkljs,dfksdlnf*/
+A:=2 $
+/*dsfjksdngfok
+fdsqfjklnsqdfino,lsdfunsdfo,cqisdfoizeosdoi
+dskjfniudsfic$*/o,einzeiouffl,zeodnoizc,zecizoef*/
+A :=C+D $
+Tab[248] :=A+B/2 $
+A := (-6) $
+EXECUT I :=5$  IF (J EG 2)
+END_IF
+EXECUT
+X:=A+(-3)$
+I :=5 $
+IF (J EG 2)
+END_IF
+EXECUT
+X:=A+(-3) $
+I :=5 $
+IF (J EG 2)
+ELSE
+EXECUT
+X:=A6*(-3) $ 
+END_IF
+While (I INF J)
+{
+A :=2
+A :=C+D /(-8)
+}
+WRITE ("idf1 idf2 & $"| Idf1 | Idf2)$
