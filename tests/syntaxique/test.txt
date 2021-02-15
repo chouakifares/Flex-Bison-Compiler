@@ -1,0 +1,12 @@
+##PROCESS
+##LOOP
+
+Programme Tfz{
+    VAR 
+        INTEGER :: Test1A = ( 97.68 + (9 * 6 - 9.6 + 645.58 / (87.6  + 987.58) ))  // TestB2 = -987.6458 // T[8] // T5[87]$
+        INTEGER :: Testdqs1A = ( 74.64 / (85*9)) $ 
+        CHAR :: GHkdlnf5 = 'c' // JNDOIS45j $
+        CONST STRING :: Alpha = "test string" // Beta = "poopoo" $ 
+        CONST REAL :: L = 845.36 // TESfdk = 875.658 $
+         
+}
