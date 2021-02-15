@@ -1,5 +1,7 @@
 %{
-	int lines=0,process=0,loop=0,array=0;
+	#include <stdio.h>
+	#include "parser.tab.h"
+	int lines=1,process=0,loop=0,array=0;
 %}
 ALL_CHARS (.|\n)*
 LIB ##PROCESS|##LOOP|##ARRAY
@@ -15,39 +17,33 @@ STRING \".*\"
 FORMAT_SIGN [%#&\|]
 %%
 {LIB} {
-	if(!strcmp(yytext,"##PROCESS")) process = 1;
-	if(!strcmp(yytext,"##LOOP")) loop = 1;
-	if(!strcmp(yytext,"##ARRAY")) array = 1;
+	return LIB;
 }
-READ {printf("READ");}
-WRITE {printf("WRITE");}
-EXECUT {printf("EXECUTE \n");}
-IF {printf("IF \n");}
-ELSE {printf("ELSE \n");}
-END_IF {printf("END_IF \n");}
-While {printf("WHILE \n");} 
-{COMPARAISON} {printf("OPERATOR_2 ");}
-{TAB_SIZE} {printf("SIZE ");}
-{TYPE} {printf("TYPE ");}
+VAR {return VAR;}
+Programme {return PROG;}
+READ {return READ;}
+WRITE {return WRITE;}
+EXECUT {return EXECUTE;}
+IF {return IF;}
+ELSE {return ELSE;}
+END_IF {return END_IF ;}
+While {return WHILE;} 
+{COMPARAISON} {return COMP;}
+{TAB_SIZE} {return SIZE ;}
+{TYPE} {return TYPE; }
 [0-9]+ {printf("%s ",yytext);}
-CONST {printf("CONST ");}
-{IDF} {printf("IDF ");}
-{ARITHMETIC} {printf("OPERATOR_1 ");}
-{FORMAT_SIGN} {printf("FORMAT_SIGN ");}
-"//" {printf("SEP ");}
-{STRING} {printf("STRING ");}
-\( {printf("Opening parenthesis (");}
-\) {printf(") Closing parenthesis \n");}
-\{ {printf("Opening bracket {\n");}
-\} {printf("} Closing bracket \n");} 
-\n {lines++;}
-\$ {printf(" end\n");}
-{COMMENT} {printf("COMMENT ");}
+CONST {return CONST;}
+{IDF} {return IDF;}
+{ARITHMETIC} {return OP;}
+{FORMAT_SIGN} {return FORMAT_SIGN;}
+"//" {return SEP;}
+{STRING} {return STRING;}
+\( {return OPENING_PAR ;}
+\) {return CLOSING_PAR;}
+\{ {return OPENING_BRA;}
+\} {return CLOSING_BRA;} 
+\n|\r {lines++;}
+\$ {return END;}
+{COMMENT} {return COMMENT;}
 [ \t] {}
 . {printf("%s: lexical error in line %d\n", yytext, lines);break;} 
-%%
-void main(int argc, char** argv){
-	if(argc>1) yyin = fopen(argv[1],"r");
-	yylex();
-	printf("process:%d,loop:%d, array:%d,lines: %d \n",process,loop,array,lines);
-}
