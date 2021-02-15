@@ -1,0 +1,30 @@
+%{
+	#include <stdio.h>
+	int yylex();
+    void yyerror(char *s);
+%}
+%token LIB PROG VAR READ WRITE EXECUTE IF ELSE END_IF WHILE 
+    COMP SIZE TYPE CONST IDF OP FORMAT_SIGN SEP 
+    STRING OPENING_PAR CLOSING_PAR OPENING_BRA
+    CLOSING_BRA COMMENT END;
+%%
+CODE: 
+    IMPORT PROG IDF OPENING_BRA DECLARATION_PART INSTRUCTION_PART CLOSING_BRA {
+        printf("syntaxe correcte\n");
+        YYACCEPT;
+    }; 
+IMPORT: LIB IMPORT | ;
+INSTRUCTION_PART: ;
+DECLARATION_PART: VAR DECLARATION | ;
+DECLARATION: TYPE VAR_LIST DECLARATION | CONST TYPE CONST_LIST DECLARATION| END DECLARATION | END;
+VAR_LIST: IDF SEP VAR_LIST| IDF SIZE SEP VAR_LIST| IDF | IDF SIZE; 
+CONST_LIST: IDF SEP CONST_LIST| IDF; 
+%%
+void yyerror(char *msg)
+{ 
+    printf("syntax error: %s \n", msg);
+}
+void main() {
+	yyparse();
+}
+void yywarp(void){};
