@@ -28,11 +28,14 @@ HP_ARITHMETIC_OP \*|\/
 /*Identifiers (starts with an uppercase letter followed by a a series of number or letter, */
 /* max length 10 chars)*/
 IDF [A-Z][0-9a-zA-Z]{0,9}
-/**/
+/*matches the size of the array*/
 TAB_SIZE \[{NUMBER}\] 
-STRING \".*\"
+/*matches a string betwwen two double quotes*/
+STRING \"(\\.|[^"\\])*\"
+/*matches a single character between to simple quotes*/
 CHAR \'.\'
-FORMAT_SIGN [%#&\|]
+/*matches a format sign used for IO*/
+FORMAT_SIGN [;%#&]
 %%
 {LIB} {
 	return LIB;
@@ -41,6 +44,8 @@ VAR {return VAR;}
 = {return EQUAL;}
 := {return ASSIGN_OP;}
 :: {return DOUBLE_PERIOD;}
+\| {return PIPE;}
+@ {return AT;}
 Programme {return PROGRAMME;}
 READ {return READ;}
 WRITE {return WRITE;}
@@ -57,18 +62,18 @@ CONST {return CONST;}
 \} {return CLOSING_BRACKET;} 
 \n|\r {lines++;}
 \$ {return END;}
-\" {return DOUBLE_QUOTE;}
+\" {printf("DOUBLE_QUOTE\t");return DOUBLE_QUOTE;}
 \' {return QUOTE;}
 {COMPARAISON} {return COMP;}
 {TAB_SIZE} {return SIZE ;}
 {TYPE} {return TYPE; }
 {SIGNED_NUMBER} {return NUMBER;}
 {FLOAT} {return FLOAT;}
-{IDF} {return IDF;}
+{IDF} {printf("IDF\n"); return IDF;}
 {LP_ARITHMETIC_OP} {return LPOP;}
 {HP_ARITHMETIC_OP} {return HPOP;}
 {FORMAT_SIGN} {return FORMAT_SIGN;}
-{STRING} {return STRING;}
+{STRING} {printf("String");return STRING;}
 {CHAR} {return CHAR;}
 {COMMENT} {return COMMENT;}
 [ \t] {}

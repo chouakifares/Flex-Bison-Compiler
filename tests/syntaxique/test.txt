@@ -8,5 +8,43 @@ Programme Tfz{
         CHAR :: GHkdlnf5 = 'c' // JNDOIS45j $
         CONST STRING :: Alpha = "test string" // Beta = "poopoo" $ 
         CONST REAL :: L = 845.36 // TESfdk = 875.658 $
-         
+    Test := 875.98 * 68 - 658 / (65 + 65 - 98/ 6 ) $
+    While (I INF J)
+    {
+        A := 2 $
+        A := X + 84 /(-8)$
+        While (I SUP (-6))
+        {
+            A := 2 $
+            While(I + 5 SUP 89* J){
+                A := 32 $
+                EXECUT 
+                    I :=5 $ 
+                IF (J * 5 + A EG 2 + 8)
+                END_IF
+                $
+
+                EXECUT
+                    X:= 8 +(-3) $
+                    I :=5 $
+                    EXECUT
+                        X:= A +(-3 * P) $
+                        I :=5 $
+                    IF (J EG 2)
+                    ELSE
+                    EXECUT
+                        X:= 6 *(-3) $
+                    END_IF
+                    $
+                IF (J EG 2)
+                END_IF
+                $
+            }
+            $
+        }    
+        $   
+    }
+    $   
+    READ(;| @Idf)$
+    WRITE("sdfqhjgskdfyusqdhjf  Adj sdijfnsdfui  %" | Idf1 // Idf2 // Idf3)$
 }
