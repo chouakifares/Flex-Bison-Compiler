@@ -1,0 +1,24 @@
+##LOOP
+##PROCESS
+##ARRAY
+
+Programme Tfzsdf{
+    VAR 
+        INTEGER :: Test = 18  // TEsrdsf // Test1A = ( 97.68 + (9 * 6 - 9.6 + 645.58 / (87.6  + 987.58) ))  // TestB2 = -987.6458 // T[8] // T2[45] $
+        STRING :: Test84 = "v" $
+        REAL :: Test2 = 5648 $
+        STRING :: S = "String"$
+        CHAR :: GHkdlnf5 = 'c'$
+        CONST CHAR ::  T4 = 'f' $  
+    T[4] := 87 $ 
+    Test := 79 $  
+    Test := S * 0$
+    Test := S * 0 $
+    Test := 875.98 * 68 - 658 / (65 + 65 - 98/ 6 ) $
+    READ(;| @Test)$
+    WRITE("kjsdfl,sqiudf ; nk ,  & sdiof56468368kjqsf % fsdifnsd ? sdfinsok,flsif, ;"| Test//  GHkdlnf5 //Test2  // S // TEsrdsf)$
+    /*READ(;| @S)$*/
+    WRITE("kjsdfl,sqiudf % ;"|   Test2// TEsrdsf)$
+    TestB2 := Test$
+    TestB2 := S$
+}   

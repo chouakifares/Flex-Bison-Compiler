@@ -1,14 +1,18 @@
+/*CHOUAKI FARES 181831013081*/
+/*DEHRI FAYCAL */
 %{
-	#include <stdio.h>
 	#include "parser.tab.h"
-	int lines=1,process=0,loop=0,array=0;
+    #include "Symbol_table.h"   
+	int yyparse();
+	extern int type;
+	extern int lines,cols;
+	extern YYSTYPE yylval;
 %}
-/*matches all characters (used to match sequences of gibberish in a comment*/
+/*matches all characters (used to match sequences of gibberish in a comment)*/
 ALL_CHARS (.|\n)*
 /*Libraries (PROCESS, LOOP , ARRAY)*/
 LIB ##PROCESS|##LOOP|##ARRAY
-/*TYPES*/
-TYPE INTEGER|REAL|CHAR|STRING
+
 /*numbers (used to match signed numbers , tab sizes , and floating point numbers) */
 NUMBER [0-9]+
 /*matches signed numbers*/
@@ -26,55 +30,232 @@ LP_ARITHMETIC_OP \-|\+
 /* high priority arithmetic operators (* /)*/
 HP_ARITHMETIC_OP \*|\/
 /*Identifiers (starts with an uppercase letter followed by a a series of number or letter, */
-/* max length 10 chars)*/
-IDF [A-Z][0-9a-zA-Z]{0,9}
-/*matches the size of the array*/
-TAB_SIZE \[{NUMBER}\] 
+/* max length 10 chars*/
+IDF [A-Z][0-9a-zA-Z]*
 /*matches a string betwwen two double quotes*/
 STRING \"(\\.|[^"\\])*\"
 /*matches a single character between to simple quotes*/
 CHAR \'.\'
 /*matches a format sign used for IO*/
-FORMAT_SIGN [;%#&]
+FORMAT_SIGN [;%?&]
 %%
 {LIB} {
+	cols += strlen(yytext);
+	yylval.str = strdup(yytext);
+	search(yytext,"keyword","",0,1);
 	return LIB;
 }
-VAR {return VAR;}
-= {return EQUAL;}
-:= {return ASSIGN_OP;}
-:: {return DOUBLE_PERIOD;}
-\| {return PIPE;}
-@ {return AT;}
-Programme {return PROGRAMME;}
-READ {return READ;}
-WRITE {return WRITE;}
-EXECUT {return EXECUTE;}
-IF {return IF;}
-ELSE {return ELSE;}
-END_IF {return END_IF ;}
-While {return WHILE;} 
-CONST {return CONST;}
-"//" {return SEP;}
-\( { return OPENING_PARENTHESIS ;}
-\) {return CLOSING_PARENTHESIS;}
-\{ {return OPENING_BRACKET;}
-\} {return CLOSING_BRACKET;} 
-\n|\r {lines++;}
-\$ {return END;}
-\" {printf("DOUBLE_QUOTE\t");return DOUBLE_QUOTE;}
-\' {return QUOTE;}
-{COMPARAISON} {return COMP;}
-{TAB_SIZE} {return SIZE ;}
-{TYPE} {return TYPE; }
-{SIGNED_NUMBER} {return NUMBER;}
-{FLOAT} {return FLOAT;}
-{IDF} {printf("IDF\n"); return IDF;}
-{LP_ARITHMETIC_OP} {return LPOP;}
-{HP_ARITHMETIC_OP} {return HPOP;}
-{FORMAT_SIGN} {return FORMAT_SIGN;}
-{STRING} {printf("String");return STRING;}
-{CHAR} {return CHAR;}
-{COMMENT} {return COMMENT;}
-[ \t] {}
-. {printf("%s: lexical error in line %d\n", yytext, lines);break;} 
+0 {
+	cols += 1;
+	yylval.entier = atoi(yytext);
+	return ZERO;
+}
+VAR {
+	cols += strlen(yytext);
+	search(yytext,"keyword","",0,1);
+	return VAR;
+}
+= {
+	cols += strlen(yytext);
+	search(yytext,"separator","",0,2);
+	return EQUAL;
+}
+:= {
+	cols += strlen(yytext);
+	search(yytext,"separator","",0,2);
+	return ASSIGN_OP;
+}
+:: {
+	cols += strlen(yytext);
+	search(yytext,"separator","",0,2);
+	return DOUBLE_PERIOD;
+}
+\| {
+	cols += strlen(yytext);
+	search(yytext,"separator","",0,2);
+	return PIPE;
+}
+@ {
+	cols += strlen(yytext);
+	search(yytext,"separator","",0,2);
+	return AT;
+}
+Programme {
+	cols += strlen(yytext);
+	search(yytext,"keyword","",0,1);
+	return PROGRAMME;
+}
+READ {
+	cols += strlen(yytext);
+	search(yytext,"keyword","",0,1);
+	return READ;
+}
+WRITE {
+	cols += strlen(yytext);
+	search(yytext,"keyword","",0,1);
+	return WRITE;
+}
+EXECUT {
+	cols += strlen(yytext);
+	search(yytext,"keyword","",0,1);
+	return EXECUTE;
+}
+IF {
+	cols += strlen(yytext);
+	search(yytext,"keyword","",0,1);
+	return IF;
+}
+ELSE {
+	cols += strlen(yytext);
+	search(yytext,"keyword","",0,1);
+	return ELSE;
+}
+END_IF {
+	cols += strlen(yytext);
+	search(yytext,"keyword","",0,1);
+	return END_IF ;
+}
+While {
+	cols += strlen(yytext);
+	search(yytext,"keyword","",0,1);
+	return WHILE;
+} 
+CONST {
+	cols += strlen(yytext);
+	search(yytext,"keyword","",0,1);
+	return CONST;
+}
+"//" {
+	cols += strlen(yytext);
+	search(yytext,"separator","",0,2);
+	return SEP;
+}
+\[ {
+	cols += strlen(yytext);
+	search(yytext,"separator","",0,2);
+	return OPENING_CROCHET ;
+}
+
+\] {
+	cols += strlen(yytext);
+	search(yytext,"separator","",0,2);
+	return CLOSING_CROCHET ;
+}
+\( { 
+	cols += strlen(yytext);
+	search(yytext,"separator","",0,2);
+	return OPENING_PARENTHESIS ;
+}
+\) {
+	cols += strlen(yytext);
+	search(yytext,"separator","",0,2);
+	return CLOSING_PARENTHESIS;
+}
+\{ {
+	cols += strlen(yytext);
+	search(yytext,"separator","",0,2);
+	return OPENING_BRACKET;
+}
+\} {
+	cols += strlen(yytext);
+	search(yytext,"separator","",0,2);
+	return CLOSING_BRACKET;
+} 
+\n|\r {lines++;cols = 1;}
+\$ {
+	cols += strlen(yytext);
+	search(yytext,"separator","",0,2);
+	return END;
+}
+\" {
+	cols += strlen(yytext);
+	search(yytext,"separator","",0,2);
+	return DOUBLE_QUOTE;
+}
+\' {
+	cols += strlen(yytext);
+	search(yytext,"separator","",0,2);
+	return QUOTE;
+}
+{COMPARAISON} {
+	cols += strlen(yytext);
+	search(yytext,"separator","",0,2);
+	return COMP;
+}
+INTEGER {
+	cols += strlen(yytext);
+	yylval.str = strdup(yytext);
+	search(yytext,"keyword","",0,1);
+	return INTEGER;
+}
+REAL {
+	cols += strlen(yytext);
+	yylval.str = strdup(yytext);
+	search(yytext,"keyword","",0,1);
+	return REAL;
+}
+CHAR { 
+	cols += strlen(yytext);
+	yylval.str = strdup(yytext);
+	search(yytext,"keyword","",0,1);
+	return CAR;
+}
+STRING {
+	cols += strlen(yytext);
+	yylval.str = strdup(yytext);
+	search(yytext,"keyword","",0,1);
+	return STR;
+}
+{SIGNED_NUMBER} {
+	cols += strlen(yytext);
+	yylval.entier=atoi(yytext);
+	search(yytext,"cst_integer","INTEGER",0,0);
+	return NUMBER;
+}
+{FLOAT} {
+	cols += strlen(yytext);
+	yylval.reel=atof(yytext);
+	search(yytext,"cst_real","REAL",0,0);
+	return FLOAT;
+}
+{IDF} {
+	cols += strlen(yytext);
+	if(strlen(yytext)>10){
+		printf("erreur lexical: identificateur ne doit pas depasser 10 caracteres");
+		exit(1);
+	}
+	yylval.str=strdup(yytext);
+	search(yytext,"IDF","",0,0);
+	return IDF;
+}
+{LP_ARITHMETIC_OP} {
+	cols += strlen(yytext);
+	search(yytext,"separator","",0,2);
+	return LPOP;
+}
+{HP_ARITHMETIC_OP} {
+	cols += strlen(yytext);
+	yylval.str=strdup(yytext);
+	search(yytext,"separator","",0,2);
+	return HPOP;
+}
+{FORMAT_SIGN} {
+	cols += strlen(yytext);
+	yylval.str = strdup(yytext);
+	search(yytext,"separator","",0,2);
+	return FORMAT_SIGN;
+}
+{STRING} {
+	cols+= strlen(yytext);
+	yylval.str = strdup(yytext);
+	return STRING;
+}
+{CHAR} {
+	cols += strlen(yytext);
+	search(yytext,"cst_char","CHAR",strlen(yytext)-2,0);
+	return CHAR;
+}
+{COMMENT} {cols+= strlen(yytext);}
+[ \t] {cols += strlen(yytext);}
+. {printf("\n%s: lexical error in line %d col %d\n", yytext, lines,cols);break;} 
+%%
